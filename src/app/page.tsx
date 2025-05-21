@@ -10,6 +10,7 @@ import { TResultsHeaders } from '@/app/types/components/results-table';
 import { TAdvocate } from '@/app/types/advocate';
 
 import styles from './page.module.scss';
+import {filterAdvocates} from "@/app/utils/filter-advocates";
 
 export default function Home() {
     const [advocates, setAdvocates] = useState<TAdvocate[]>([]);
@@ -42,22 +43,7 @@ export default function Home() {
             resetSearch();
             return;
         }
-
-        const lowerCaseSearch = (key: string, searchPhrase: string) => key?.toLowerCase().includes(searchPhrase.toLowerCase());
-        const numericSearch = (key: number, searchPhrase: string) => key.toString().toLowerCase().includes(searchPhrase.toLowerCase());
-
-        const filteredAdvocates = advocates.filter(advocate => {
-            const { firstName, lastName, city, degree, specialties, yearsOfExperience, phoneNumber } = advocate;
-            return (
-                lowerCaseSearch(firstName, searchTerm) ||
-                lowerCaseSearch(lastName, searchTerm) ||
-                lowerCaseSearch(city, searchTerm) ||
-                lowerCaseSearch(degree, searchTerm) ||
-                lowerCaseSearch(specialties.toString().replace(',', ' ') ?? '', searchTerm) ||
-                numericSearch(yearsOfExperience, searchTerm) ||
-                numericSearch(phoneNumber, searchTerm)
-            );
-        });
+        const filteredAdvocates = filterAdvocates(advocates, searchTerm);
 
         setSearchTerm(e.target.value);
         setFilteredAdvocates(filteredAdvocates);
@@ -108,7 +94,7 @@ export default function Home() {
 
     return (
         <main className={styles.pageContainer}>
-            <div className={styles.title}>
+            <div className={styles.title} data-testid={'homeTitle'}>
                 <h1>Solace Advocates</h1>
             </div>
             <PhraseSearch searchTerm={searchTerm} onChange={onChange} onClick={resetSearch} />
