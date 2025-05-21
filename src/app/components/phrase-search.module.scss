@@ -1,0 +1,37 @@
+.phraseSearch {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+
+  .displayPhrase,
+  .searchInputContainer {
+    display: inline-block;
+    padding: 5px;
+    width: 50%;
+  }
+
+  .searchInputContainer {
+    text-align: right;
+
+    .searchInput {
+      border: 1px solid #807f7f;
+      border-radius: 3px;
+      margin-right: 5px;
+      padding: 7px;
+    }
+  }
+
+  .searchInputPhrase {
+    text-align: left;
+
+    strong {
+      color: #265b4e;
+    }
+  }
+
+  .resetBtn {
+    border: 1px solid #807f7f;
+    padding: 7px;
+    border-radius: 3px;
+  }
+}

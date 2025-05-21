@@ -1,12 +1,13 @@
-import db from "../../../db";
-import { advocates } from "../../../db/schema";
-import { advocateData } from "../../../db/seed/advocates";
+import { advocateData } from '@/db/seed/advocates';
 
 export async function GET() {
-  // Uncomment this line to use a database
-  // const data = await db.select().from(advocates);
-
-  const data = advocateData;
-
-  return Response.json({ data });
+    const data = advocateData;
+    // TODO: Database isn't setup, and typically I have an interceptor that cleans up the response by removing data
+    /*
+    fetchApi?.interceptors.response.use(
+        response => response.data,
+        err => Promise.reject(err),
+       );
+     */
+    return Response.json(data);
 }
