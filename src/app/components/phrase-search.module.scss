@@ -1,0 +1,22 @@
+.phraseSearch {
+  width: 100%;
+  margin: 10px 0;
+
+  .displayPhrase,
+  .searchInputContainer {
+    display: inline-block;
+    padding: 5px;
+    width: 50%;
+  }
+
+  .searchInputContainer {
+    text-align: right;
+
+    .searchInput {
+      border: 1px solid #000;
+      border-radius: 3px;
+      margin-right: 5px;
+      padding: 7px;
+    }
+  }
+}

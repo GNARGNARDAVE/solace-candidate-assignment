@@ -1,0 +1,13 @@
+.pageContainer {
+  width: 1200px;
+  margin: 0 auto;
+
+  .title {
+    padding: 7px;
+    h1 {
+      font-size: 1.6em;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  }
+}
