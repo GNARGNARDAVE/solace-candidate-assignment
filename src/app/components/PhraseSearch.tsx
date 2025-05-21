@@ -14,14 +14,23 @@ export default function PhraseSearch(props: IPhraseSearch) {
         <div className={styles.phraseSearch}>
             <div className={styles.displayPhrase}>
                 {searchTerm && (
-                    <div className="search-input-container">
-                        Searching for: <span id="searchTerm">{searchTerm}</span>
+                    <div className={styles.searchInputPhrase}>
+                        <strong>Searching for</strong>: <span data-testid="searchTerm">"{searchTerm}"</span>
                     </div>
                 )}
             </div>
             <div className={styles.searchInputContainer}>
-                <input className={styles.searchInput} onChange={onChange} onBlur={onChange} placeholder={'Search'} />
-                <button onClick={onClick}>Reset Search</button>
+                <input
+                    className={styles.searchInput}
+                    onChange={onChange}
+                    onBlur={onChange}
+                    value={searchTerm}
+                    placeholder={'Search'}
+                    data-testid="searchInput"
+                />
+                <button onClick={onClick} data-testid="searchReset">
+                    Reset
+                </button>
             </div>
         </div>
     );

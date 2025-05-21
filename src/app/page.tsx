@@ -2,18 +2,20 @@
 
 import { useEffect, useState } from 'react';
 import React from 'react';
-import { TAdvocate } from '@/app/types/advocate';
+
+import ErrorDisplay from '@/app/components/ErrorDisplay';
 import PhraseSearch from '@/app/components/PhraseSearch';
 import ResultsTable from '@/app/components/ResultsTable';
 import { TResultsHeaders } from '@/app/types/components/results-table';
+import { TAdvocate } from '@/app/types/advocate';
+
 import styles from './page.module.scss';
-import ErrorDisplay from "@/app/components/ErrorDisplay";
 
 export default function Home() {
     const [advocates, setAdvocates] = useState<TAdvocate[]>([]);
     const [filteredAdvocates, setFilteredAdvocates] = useState<TAdvocate[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [error, setError] = useState<string>('this is an error');
+    const [error, setError] = useState<string>('');
 
     useEffect(() => {
         fetch('/api/advocates').then(response => {
@@ -40,7 +42,7 @@ export default function Home() {
         }
 
         const lowerCaseSearch = (key: string, searchPhrase: string) => key?.toLowerCase().includes(searchPhrase.toLowerCase());
-        const numericSearch = (key: number, searchPhrase: string) => key.toString().includes(searchPhrase);
+        const numericSearch = (key: number, searchPhrase: string) => key.toString().toLowerCase().includes(searchPhrase.toLowerCase());
 
         const filteredAdvocates = advocates.filter(advocate => {
             const { firstName, lastName, city, degree, specialties, yearsOfExperience, phoneNumber } = advocate;
@@ -109,7 +111,7 @@ export default function Home() {
             </div>
             <PhraseSearch searchTerm={searchTerm} onChange={onChange} onClick={resetSearch} />
             <ResultsTable<TAdvocate> colDefs={columnHeaders} results={filteredAdvocates} />
-            <ErrorDisplay error={error} onClick={() => setError('')}/>
+            <ErrorDisplay error={error} onClick={() => setError('')} />
         </main>
     );
 }

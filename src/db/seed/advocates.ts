@@ -1,5 +1,3 @@
-// import db from '..';
-// import { advocates } from '@/db/schema';
 import { TSpecialty } from '@/app/types/specialty';
 
 const SPECIALTIES: TSpecialty[] = [

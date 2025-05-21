@@ -1,6 +1,7 @@
 .phraseSearch {
   width: 100%;
   margin: 10px 0;
+  padding: 10px;
 
   .displayPhrase,
   .searchInputContainer {
@@ -17,6 +18,14 @@
       border-radius: 3px;
       margin-right: 5px;
       padding: 7px;
+    }
+  }
+
+  .searchInputPhrase {
+    text-align: left;
+
+    strong {
+      color: #265b4e;
     }
   }
 }

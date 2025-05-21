@@ -1,5 +1,6 @@
 import React from 'react';
 import { IResultsTable, TResultsHeaders } from '@/app/types/components/results-table';
+
 import styles from './results-tables.module.scss';
 
 export default function ResultsTable<T>(props: IResultsTable<T>) {
@@ -10,7 +11,11 @@ export default function ResultsTable<T>(props: IResultsTable<T>) {
             <thead>
                 <tr>
                     {colDefs.map((menu: TResultsHeaders<T>) => {
-                        return <th key={`column-header-${menu.key}`}>{menu.label}</th>;
+                        return (
+                            <th key={`column-header-${menu.key}`} data-testid={`column-header-${menu.key}`}>
+                                {menu.label}
+                            </th>
+                        );
                     })}
                 </tr>
             </thead>
@@ -22,7 +27,7 @@ export default function ResultsTable<T>(props: IResultsTable<T>) {
                                 const display = cell.valueFormatter(record);
                                 const cellStyle = typeof display === 'number' ? styles.numericCell : '';
                                 return (
-                                    <td key={`results-table-key-${cell.key}`} className={cellStyle}>
+                                    <td key={`results-table-key-${cell.key}`} className={cellStyle} data-testid={`searchResultsRow${index}Key${cell.key}`}>
                                         {display}
                                     </td>
                                 );

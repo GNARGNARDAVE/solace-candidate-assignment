@@ -1,7 +1,9 @@
+import { ReactNode } from 'react';
+
 export type TResultsHeaders<T> = {
     label: string;
     key: keyof T;
-    valueFormatter: (param: Partial<T>) => string | number; // TODO: Should we add markup?
+    valueFormatter: (param: Partial<T>) => string | number | ReactNode;
 };
 
 export interface IResultsTable<T> {

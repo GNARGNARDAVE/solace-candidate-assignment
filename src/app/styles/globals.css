@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.cdnfonts.com/css/mollie-glaston');
+
+body {
+  font-family: Lato, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family:
+    Mollie Glaston,
+    sans-serif;
+  color: #265b4e;
+}
