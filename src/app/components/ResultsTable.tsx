@@ -25,7 +25,7 @@ export default function ResultsTable<T>(props: IResultsTable<T>) {
                         <tr key={`advocate-table-row-${index}`}>
                             {colDefs.map((cell: TResultsHeaders<T>) => {
                                 const display = cell.valueFormatter(record);
-                                const cellStyle = typeof display === 'number' ? styles.numericCell : '';
+                                const cellStyle = typeof display === 'number' ? 'text-center' : 'text-left';
                                 return (
                                     <td key={`results-table-key-${String(cell.key)}`} className={cellStyle} data-testid={`searchResultsRow${index}Key${String(cell.key)}`}>
                                         {display}

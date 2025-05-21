@@ -30,7 +30,7 @@ const SPECIALTIES: TSpecialty[] = [
 ];
 
 const randomSpecialty = (): TSpecialty[] => {
-    const totalSpecialties = SPECIALTIES.length;
+    const totalSpecialties = SPECIALTIES.length-1;
     const random1 = Math.floor(Math.random() * totalSpecialties);
     const random2 = Math.floor(Math.random() * (totalSpecialties - random1)) + random1 + 1;
 
