@@ -18,19 +18,21 @@ export default function Home() {
     const [error, setError] = useState<string>('');
 
     useEffect(() => {
-        fetch('/api/advocates').then(response => {
-            response
-                .json()
-                .then(jsonResponse => {
-                    setAdvocates(jsonResponse.data);
-                    setFilteredAdvocates(jsonResponse.data);
-                })
-                .catch(err => {
-                    setError(err.message);
-                    setAdvocates([]);
-                    setFilteredAdvocates([]);
-                });
-        });
+        const getData = async () => {
+            const data = await fetch('/api/advocates').then(response => {
+                return response
+                    .json()
+                    .catch(err => {
+                        setError(err.message);
+                        setAdvocates([]);
+                        setFilteredAdvocates([]);
+                    });
+            });
+            setAdvocates(data);
+            setFilteredAdvocates(data);
+        };
+
+        getData();
     }, []);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
