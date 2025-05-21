@@ -12,7 +12,7 @@ export default function ResultsTable<T>(props: IResultsTable<T>) {
                 <tr>
                     {colDefs.map((menu: TResultsHeaders<T>) => {
                         return (
-                            <th key={`column-header-${menu.key}`} data-testid={`column-header-${menu.key}`}>
+                            <th key={`column-header-${String(menu.key)}`} data-testid={`column-header-${String(menu.key)}`}>
                                 {menu.label}
                             </th>
                         );
@@ -27,7 +27,7 @@ export default function ResultsTable<T>(props: IResultsTable<T>) {
                                 const display = cell.valueFormatter(record);
                                 const cellStyle = typeof display === 'number' ? styles.numericCell : '';
                                 return (
-                                    <td key={`results-table-key-${cell.key}`} className={cellStyle} data-testid={`searchResultsRow${index}Key${cell.key}`}>
+                                    <td key={`results-table-key-${String(cell.key)}`} className={cellStyle} data-testid={`searchResultsRow${index}Key${String(cell.key)}`}>
                                         {display}
                                     </td>
                                 );

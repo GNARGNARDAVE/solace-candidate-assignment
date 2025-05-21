@@ -1,0 +1,50 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "rules": {
+    "no-const-assign": "error",
+    "no-debugger": "error",
+    "no-dupe-class-members": "error",
+    "no-dupe-else-if": "error",
+    "no-dupe-keys": "error",
+    "no-dupe-args": "error",
+    "no-empty-character-class": "error",
+    "no-empty-pattern": "error",
+    "no-empty-function": "error",
+    "no-import-assign": "error",
+    "no-irregular-whitespace": "warn",
+    "no-obj-calls": "error",
+    "no-setter-return": "error",
+    "no-sparse-arrays": "error",
+    "no-unexpected-multiline": "error",
+    "no-unreachable": "error",
+    "no-unsafe-finally": "error",
+    "no-unsafe-optional-chaining": "error",
+    "no-use-before-define": "off",
+    "require-atomic-updates": "error",
+    "use-isnan": "error",
+    "camelcase": "error",
+    "default-case": "error",
+    "default-case-last": "error",
+    "default-param-last": "error",
+    "no-console": [
+      "error",
+      {
+        "allow": ["error", "warn", "info"]
+      }
+    ],
+    "no-empty": "error",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "eol-last": 0,
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxEOF": 0
+      }
+    ],
+    "indent": [2, 4],
+    "semi": 2
+  }
+}
