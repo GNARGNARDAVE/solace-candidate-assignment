@@ -28,7 +28,7 @@ export default function PhraseSearch(props: IPhraseSearch) {
                     placeholder={'Search'}
                     data-testid="searchInput"
                 />
-                <button onClick={onClick} data-testid="searchReset">
+                <button onClick={onClick} className={styles.resetBtn} data-testid="searchReset">
                     Reset
                 </button>
             </div>

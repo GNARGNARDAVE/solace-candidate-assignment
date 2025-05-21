@@ -14,7 +14,7 @@
     text-align: right;
 
     .searchInput {
-      border: 1px solid #000;
+      border: 1px solid #807f7f;
       border-radius: 3px;
       margin-right: 5px;
       padding: 7px;
@@ -27,5 +27,11 @@
     strong {
       color: #265b4e;
     }
+  }
+
+  .resetBtn {
+    border: 1px solid #807f7f;
+    padding: 7px;
+    border-radius: 3px;
   }
 }
