@@ -14,7 +14,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+                <link rel="shortcut icon" type="image/x-icon" href="/src/app/favicon.ico" />
                 <link href="https://fonts.cdnfonts.com/css/mollie-glaston" rel="stylesheet" />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" />

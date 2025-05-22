@@ -25,7 +25,3 @@ sacrifice the other features, and present this existing MVP.
   - Search specifically by column
 - Styled a proper template
 - Setup sass variables and a base for the customized styles for Solace
-- Go back and fix the search/filtering code. I am not really happy with it.
-  - I originally had it iterate through the array of keys, and use the 'find' prototype for the current record and then go to the next record. It was really
-    simple but needed a few more iterations to get it dialed. The current one was to get it working and time ran out with trying all the typing and styling
-    work.

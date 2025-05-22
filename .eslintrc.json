@@ -46,5 +46,13 @@
     ],
     "indent": [2, 4],
     "semi": 2
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.tsx"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

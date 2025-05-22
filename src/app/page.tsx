@@ -12,6 +12,44 @@ import { TAdvocate } from '@/app/types/advocate';
 import styles from './page.module.scss';
 import {filterAdvocates} from "@/app/utils/filter-advocates";
 
+const COLUMN_HEADERS: TResultsHeaders<TAdvocate>[] = [
+    {
+        label: 'First Name',
+        key: 'firstName',
+        valueFormatter: (param: Partial<TAdvocate>) => param.firstName ?? '',
+    },
+    {
+        label: 'Last Name',
+        key: 'lastName',
+        valueFormatter: (param: Partial<TAdvocate>) => param.lastName ?? '',
+    },
+    {
+        label: 'City',
+        key: 'city',
+        valueFormatter: (param: Partial<TAdvocate>) => param.city ?? '',
+    },
+    {
+        label: 'Degree',
+        key: 'degree',
+        valueFormatter: (param: Partial<TAdvocate>) => param.degree ?? '',
+    },
+    {
+        label: 'Specialties',
+        key: 'specialties',
+        valueFormatter: (param: Partial<TAdvocate>) => param.specialties?.join(', ') ?? '',
+    },
+    {
+        label: 'Years of Experience',
+        key: 'yearsOfExperience',
+        valueFormatter: (param: Partial<TAdvocate>) => param.yearsOfExperience ?? '',
+    },
+    {
+        label: 'Phone Number',
+        key: 'phoneNumber',
+        valueFormatter: (param: Partial<TAdvocate>) => param.phoneNumber ?? '',
+    },
+];
+
 export default function Home() {
     const [advocates, setAdvocates] = useState<TAdvocate[]>([]);
     const [filteredAdvocates, setFilteredAdvocates] = useState<TAdvocate[]>([]);
@@ -54,51 +92,13 @@ export default function Home() {
         setFilteredAdvocates(advocates);
     };
 
-    const columnHeaders: TResultsHeaders<TAdvocate>[] = [
-        {
-            label: 'First Name',
-            key: 'firstName',
-            valueFormatter: (param: Partial<TAdvocate>) => param.firstName ?? '',
-        },
-        {
-            label: 'Last Name',
-            key: 'lastName',
-            valueFormatter: (param: Partial<TAdvocate>) => param.lastName ?? '',
-        },
-        {
-            label: 'City',
-            key: 'city',
-            valueFormatter: (param: Partial<TAdvocate>) => param.city ?? '',
-        },
-        {
-            label: 'Degree',
-            key: 'degree',
-            valueFormatter: (param: Partial<TAdvocate>) => param.degree ?? '',
-        },
-        {
-            label: 'Specialties',
-            key: 'specialties',
-            valueFormatter: (param: Partial<TAdvocate>) => param.specialties?.join(', ') ?? '',
-        },
-        {
-            label: 'Years of Experience',
-            key: 'yearsOfExperience',
-            valueFormatter: (param: Partial<TAdvocate>) => param.yearsOfExperience ?? '',
-        },
-        {
-            label: 'Phone Number',
-            key: 'phoneNumber',
-            valueFormatter: (param: Partial<TAdvocate>) => param.phoneNumber ?? '',
-        },
-    ];
-
     return (
         <main className={styles.pageContainer}>
             <div className={styles.title} data-testid={'homeTitle'}>
                 <h1>Solace Advocates</h1>
             </div>
             <PhraseSearch searchTerm={searchTerm} onChange={onChange} onClick={resetSearch} />
-            <ResultsTable<TAdvocate> colDefs={columnHeaders} results={filteredAdvocates} />
+            <ResultsTable<TAdvocate> colDefs={COLUMN_HEADERS} results={filteredAdvocates} id="advocateResultsTable" />
             <ErrorDisplay error={error} onClick={() => setError('')} />
         </main>
     );

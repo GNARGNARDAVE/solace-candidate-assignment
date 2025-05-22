@@ -1,11 +1,11 @@
 import {TAdvocate} from "@/app/types/advocate";
 import {TSpecialty} from "@/app/types/specialty";
 
-const lowerCaseSearch = (key: string, searchPhrase: string):boolean | undefined => key?.toLowerCase().includes(searchPhrase.toLowerCase());
+const lowerCaseSearch = (key: string, searchPhrase: string):boolean => key.toLowerCase().includes(searchPhrase.toLowerCase());
 const numericSearch = (key: number, searchPhrase: string):boolean => key.toString().toLowerCase().includes(searchPhrase.toLowerCase());
 
 const applySearchLogic = (currVal: string | number | TSpecialty[], searchTerm: string): boolean | undefined => {
-    let match: boolean | undefined;
+    let match: boolean;
     switch (typeof currVal) {
     case 'number':
         match = numericSearch(currVal, searchTerm);

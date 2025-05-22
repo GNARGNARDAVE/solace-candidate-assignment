@@ -4,10 +4,10 @@ import { IResultsTable, TResultsHeaders } from '@/app/types/components/results-t
 import styles from './results-tables.module.scss';
 
 export default function ResultsTable<T>(props: IResultsTable<T>) {
-    const { results, colDefs } = props;
+    const { results, colDefs , id } = props;
 
     return (
-        <table className={styles.resultsTable}>
+        <table className={styles.resultsTable} data-testid={id}>
             <thead>
                 <tr>
                     {colDefs.map((menu: TResultsHeaders<T>) => {
