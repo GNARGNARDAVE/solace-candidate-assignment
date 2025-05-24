@@ -1,13 +1,7 @@
-import { advocateData } from '@/db/seed/advocates';
+import db from '@/db';
+import { advocates } from '@/db/schema';
 
 export async function GET() {
-    const data = advocateData;
-    // TODO: Database isn't setup, and typically I have an interceptor that cleans up the response by removing data
-    /*
-    fetchApi?.interceptors.response.use(
-        response => response.data,
-        err => Promise.reject(err),
-       );
-     */
-    return Response.json(data);
+    const data = await db.select().from(advocates);
+    return Response.json({ data });
 }
