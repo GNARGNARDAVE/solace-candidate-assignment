@@ -1,16 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import React from 'react';
 
 import ErrorDisplay from '@/app/components/ErrorDisplay';
 import PhraseSearch from '@/app/components/PhraseSearch';
 import ResultsTable from '@/app/components/ResultsTable';
-import { TResultsHeaders } from '@/app/types/components/results-table';
+import { TResultsHeaders, TTableSort } from '@/app/types/components/results-table';
 import { TAdvocate } from '@/app/types/advocate';
 
 import styles from './page.module.scss';
-import {filterAdvocates} from "@/app/utils/filter-advocates";
+import { filterAdvocates } from '@/app/utils/filter-advocates';
 
 const COLUMN_HEADERS: TResultsHeaders<TAdvocate>[] = [
     {
@@ -50,29 +50,34 @@ const COLUMN_HEADERS: TResultsHeaders<TAdvocate>[] = [
     },
 ];
 
-export default function Home() {
+const Home: FC = () => {
     const [advocates, setAdvocates] = useState<TAdvocate[]>([]);
     const [filteredAdvocates, setFilteredAdvocates] = useState<TAdvocate[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [error, setError] = useState<string>('');
+    const [tableSort, setTableSort] = useState<TTableSort<TAdvocate>>({ sort: 'ASC', key: COLUMN_HEADERS[0].key });
+
+    const getData = async () => {
+        const url = tableSort?.key && tableSort?.sort ? `/api/advocates?key=${tableSort.key}&sort=${tableSort.sort}` : '/api/advocates';
+
+        const data = await fetch(url).then(response => {
+            return response.json().catch(err => {
+                setError(err.message);
+                setAdvocates([]);
+                setFilteredAdvocates([]);
+            });
+        });
+        setAdvocates(data);
+        setFilteredAdvocates(data);
+    };
 
     useEffect(() => {
-        const getData = async () => {
-            const data = await fetch('/api/advocates').then(response => {
-                return response
-                    .json()
-                    .catch(err => {
-                        setError(err.message);
-                        setAdvocates([]);
-                        setFilteredAdvocates([]);
-                    });
-            });
-            setAdvocates(data);
-            setFilteredAdvocates(data);
-        };
-
         getData();
     }, []);
+
+    useEffect(() => {
+        getData();
+    }, [tableSort]);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const searchTerm = e.target.value;
@@ -84,11 +89,13 @@ export default function Home() {
         const filteredAdvocates = filterAdvocates(advocates, searchTerm);
 
         setSearchTerm(e.target.value);
+        setTableSort({ sort: 'ASC', key: COLUMN_HEADERS[0].key });
         setFilteredAdvocates(filteredAdvocates);
     };
 
     const resetSearch = (): void => {
         setSearchTerm('');
+        setTableSort({ sort: 'ASC', key: COLUMN_HEADERS[0].key });
         setFilteredAdvocates(advocates);
     };
 
@@ -98,8 +105,20 @@ export default function Home() {
                 <h1>Solace Advocates</h1>
             </div>
             <PhraseSearch searchTerm={searchTerm} onChange={onChange} onClick={resetSearch} />
-            <ResultsTable<TAdvocate> colDefs={COLUMN_HEADERS} results={filteredAdvocates} id="advocateResultsTable" />
+            <ResultsTable<TAdvocate>
+                id="advocateResultsTable"
+                colDefs={COLUMN_HEADERS}
+                results={filteredAdvocates}
+                updateSearch={({ key, sort }: TTableSort<TAdvocate>) =>
+                    setTableSort({
+                        key,
+                        sort,
+                    })
+                }
+            />
             <ErrorDisplay error={error} onClick={() => setError('')} />
         </main>
     );
-}
+};
+
+export default Home;

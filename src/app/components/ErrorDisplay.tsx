@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import styles from './error-display.module.scss';
 
 interface IErrorDisplay {
@@ -6,7 +7,7 @@ interface IErrorDisplay {
 }
 
 // TODO: Add a toast/snackbar
-export default function ErrorDisplay(props: IErrorDisplay) {
+const ErrorDisplay: FC = (props: IErrorDisplay) => {
     const { error, onClick } = props;
 
     return (
@@ -16,4 +17,6 @@ export default function ErrorDisplay(props: IErrorDisplay) {
             </div>
         )
     );
-}
+};
+
+export default ErrorDisplay;

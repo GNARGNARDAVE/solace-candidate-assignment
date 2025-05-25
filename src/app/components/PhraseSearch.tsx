@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import styles from './phrase-search.module.scss';
 
 interface IPhraseSearch {
@@ -7,7 +7,7 @@ interface IPhraseSearch {
     onClick: () => void;
 }
 
-export default function PhraseSearch(props: IPhraseSearch) {
+const PhraseSearch: FC = (props: IPhraseSearch) => {
     const { searchTerm, onChange, onClick } = props;
 
     return (
@@ -34,4 +34,6 @@ export default function PhraseSearch(props: IPhraseSearch) {
             </div>
         </div>
     );
-}
+};
+
+export default PhraseSearch;

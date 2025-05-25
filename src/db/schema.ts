@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm';
 import { pgTable, integer, text, jsonb, serial, timestamp, bigint } from 'drizzle-orm/pg-core';
 
-const advocates = pgTable('advocates', {
+export const advocates = pgTable('advocates', {
     id: serial('id').primaryKey(),
     firstName: text('first_name').notNull(),
     lastName: text('last_name').notNull(),
@@ -12,5 +12,3 @@ const advocates = pgTable('advocates', {
     phoneNumber: bigint('phone_number', { mode: 'number' }).notNull(),
     createdAt: timestamp('created_at').default(sql`CURRENT_TIMESTAMP`),
 });
-
-export { advocates };
