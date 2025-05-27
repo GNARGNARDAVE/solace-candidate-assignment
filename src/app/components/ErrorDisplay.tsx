@@ -6,7 +6,9 @@ interface IErrorDisplay {
     onClick: () => void;
 }
 
-// TODO: Add a toast/snackbar
+/**
+ * Error Display is the placeholder for a better way to display errors
+ */
 const ErrorDisplay: FC = (props: IErrorDisplay) => {
     const { error, onClick } = props;
 

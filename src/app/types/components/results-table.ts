@@ -1,6 +1,11 @@
 import { ReactNode } from 'react';
 export type TSort = 'ASC' | 'DESC';
 
+export type TSearchParams<T> = {
+    key: keyof T | null;
+    input: string | null;
+};
+
 export type TTableSort<T> = {
     key: keyof T;
     sort: TSort;

@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState, FC } from 'react';
-import React from 'react';
+import React, { FC, useMemo } from 'react';
 
 import ErrorDisplay from '@/app/components/ErrorDisplay';
 import PhraseSearch from '@/app/components/PhraseSearch';
 import ResultsTable from '@/app/components/ResultsTable';
+import { useFetchSort } from '@/app/hooks/use-fetch-sort';
 import { TResultsHeaders, TTableSort } from '@/app/types/components/results-table';
 import { TAdvocate } from '@/app/types/advocate';
 
@@ -50,87 +50,77 @@ const COLUMN_HEADERS: TResultsHeaders<TAdvocate>[] = [
 ];
 
 const Home: FC = () => {
-    const [advocates, setAdvocates] = useState<TAdvocate[]>([]);
-    const [filteredAdvocates, setFilteredAdvocates] = useState<TAdvocate[]>([]);
-    const [searchParams, setSearchParams] = useState<any>({ key: '', input: '' });
-    const [error, setError] = useState<string>('');
-    const [tableSort, setTableSort] = useState<TTableSort<TAdvocate>>({ sort: 'ASC', key: COLUMN_HEADERS[0].key });
+    const { data, error, fetchData, queryParams, setError, setQueryParams } = useFetchSort<TAdvocate>({
+        url: '/api/advocates',
+        defaultSortKey: COLUMN_HEADERS[0].key,
+    });
 
-    const getData = async () => {
-        let url = '/api/advocates';
-        const sortingParams = tableSort?.key && tableSort?.sort ? `&key=${tableSort.key}&sort=${tableSort.sort}` : '';
-        const searchingParams = searchParams.input && searchParams.key ? `&searchKey=${searchParams.key}&searchInput=${searchParams.input}` : '';
-        const queryParams = sortingParams.concat(searchingParams).slice(1);
-        url = queryParams.length ? `${url}?${queryParams}` : url;
+    const onSearch = () => fetchData();
 
-        const data = await fetch(url).then(response => {
-            return response.json().catch(err => {
-                setError(err.message);
-                setAdvocates([]);
-                setFilteredAdvocates([]);
-            });
+    const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+        setQueryParams({
+            ...queryParams,
+            searchParams: {
+                ...queryParams.searchParams,
+                key: e.target.value as keyof TAdvocate,
+            },
         });
-        setAdvocates(data);
-        setFilteredAdvocates(data);
     };
-
-    useEffect(() => {
-        getData();
-    }, [tableSort]);
 
     const onTextChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const searchTerm = e.target.value;
-        setSearchParams({
-            ...searchParams,
-            input: searchTerm,
-        });
-    };
-
-    const onSearch = () => getData();
-
-    const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-        setSearchParams({
-            ...searchParams,
-            key: e.target.value,
+        setQueryParams({
+            ...queryParams,
+            searchParams: {
+                ...queryParams.searchParams,
+                input: searchTerm,
+            },
         });
     };
 
     const resetSearch = (): void => {
-        setSearchParams({
-            ...searchParams,
-            input: '',
+        setQueryParams({
+            tableSort: {
+                sort: 'ASC',
+                key: COLUMN_HEADERS[0].key,
+            },
+            searchParams: {
+                ...queryParams.searchParams,
+                input: '',
+            },
         });
-        setTableSort({ sort: 'ASC', key: COLUMN_HEADERS[0].key });
-        setFilteredAdvocates(advocates);
     };
 
     return (
         <main className={styles.pageContainer}>
             <div className={styles.title} data-testid={'homeTitle'}>
                 <h1>Solace</h1>
-
                 <h2>Advocates</h2>
+                <p>Search</p>
             </div>
-            <PhraseSearch
-                colDefs={COLUMN_HEADERS}
-                searchSelect={searchParams.key}
-                searchTerm={searchParams.input}
-                onTextChange={onTextChange}
-                onSelectChange={onSelectChange}
-                onSearch={onSearch}
-                onClick={resetSearch}
-            />
             <ResultsTable<TAdvocate>
                 id="advocateResultsTable"
                 colDefs={COLUMN_HEADERS}
-                results={filteredAdvocates}
+                results={data}
                 updateSearch={({ key, sort }: TTableSort<TAdvocate>) =>
-                    setTableSort({
-                        key,
-                        sort,
+                    setQueryParams({
+                        ...queryParams,
+                        tableSort: {
+                            key,
+                            sort,
+                        },
                     })
-                }
-            />
+                }>
+                <PhraseSearch<TAdvocate>
+                    colDefs={COLUMN_HEADERS}
+                    searchSelect={queryParams.searchParams.key}
+                    searchTerm={queryParams.searchParams.input}
+                    onTextChange={onTextChange}
+                    onSelectChange={onSelectChange}
+                    onSearch={onSearch}
+                    onClick={resetSearch}
+                />
+            </ResultsTable>
             <ErrorDisplay error={error} onClick={() => setError('')} />
         </main>
     );

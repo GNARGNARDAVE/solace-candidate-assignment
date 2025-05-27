@@ -13,6 +13,13 @@ interface IPhraseSearch<T> {
 
 }
 
+/**
+ * Phrase Search is a generic component that can complement any Results Table component.
+ *
+ * It is a generic component that can be customized by passing in the type, colDefs, and handlers to add more functionality
+ * to the results table by allowing users to filtering keys from the table.
+ *
+ */
 const PhraseSearch: FC = <T,>(props: IPhraseSearch<T>) => {
     const { searchTerm, searchSelect, onSelectChange, onTextChange, onSearch, colDefs, onClick } = props;
 

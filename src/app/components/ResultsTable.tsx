@@ -4,8 +4,11 @@ import { IResultsTable, TResultsHeaders } from '@/app/types/components/results-t
 import styles from './results-tables.module.scss';
 import { useSort } from '@/app/hooks/use-sort';
 
+/**
+ *  Results Table is a generic table, which driven by the colDefs and reinforced by the generic type passed in.
+ */
 export const ResultsTable: FC = <T,>(props: IResultsTable<T>) => {
-    const { results, colDefs, id, updateSearch } = props;
+    const { results, colDefs, id, updateSearch, children } = props;
     const { key, sort, orderBy } = useSort<T>();
 
     const onHeaderClick = (key: keyof T, sort) => {
@@ -15,6 +18,7 @@ export const ResultsTable: FC = <T,>(props: IResultsTable<T>) => {
 
     return (
         <>
+            {children}
             <table className={styles.resultsTable} data-testid={id}>
                 <thead>
                     <tr>
