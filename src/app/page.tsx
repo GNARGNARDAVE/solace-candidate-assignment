@@ -1,91 +1,135 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import React, { FC } from 'react';
 
-export default function Home() {
-  const [advocates, setAdvocates] = useState([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState([]);
+import ErrorDisplay from '@/app/components/ErrorDisplay';
+import PhraseSearch from '@/app/components/PhraseSearch';
+import ResultsTable from '@/app/components/ResultsTable';
+import { useFetchSort } from '@/app/hooks/use-fetch-sort';
+import { TResultsHeaders, TTableSort } from '@/app/types/components/results-table';
+import { TAdvocate } from '@/app/types/advocate';
 
-  useEffect(() => {
-    console.log("fetching advocates...");
-    fetch("/api/advocates").then((response) => {
-      response.json().then((jsonResponse) => {
-        setAdvocates(jsonResponse.data);
-        setFilteredAdvocates(jsonResponse.data);
-      });
+import styles from './page.module.scss';
+
+const COLUMN_HEADERS: TResultsHeaders<TAdvocate>[] = [
+    {
+        label: 'First Name',
+        key: 'firstName',
+        valueFormatter: (param: Partial<TAdvocate>) => param.firstName ?? '',
+    },
+    {
+        label: 'Last Name',
+        key: 'lastName',
+        valueFormatter: (param: Partial<TAdvocate>) => param.lastName ?? '',
+    },
+    {
+        label: 'City',
+        key: 'city',
+        valueFormatter: (param: Partial<TAdvocate>) => param.city ?? '',
+    },
+    {
+        label: 'Degree',
+        key: 'degree',
+        valueFormatter: (param: Partial<TAdvocate>) => param.degree ?? '',
+    },
+    {
+        label: 'Specialties',
+        key: 'specialties',
+        valueFormatter: (param: Partial<TAdvocate>) => param.specialties?.join(', ') ?? '',
+    },
+    {
+        label: 'Years of Experience',
+        key: 'yearsOfExperience',
+        valueFormatter: (param: Partial<TAdvocate>) => param.yearsOfExperience ?? '',
+    },
+    {
+        label: 'Phone Number',
+        key: 'phoneNumber',
+        valueFormatter: (param: Partial<TAdvocate>) => param.phoneNumber ?? '',
+    },
+];
+
+const Home: FC = () => {
+    const { data, error, fetchData, queryParams, setError, setQueryParams } = useFetchSort<TAdvocate>({
+        url: '/api/advocates',
+        sort: 'ASC',
+        defaultSortKey: COLUMN_HEADERS[0].key,
     });
-  }, []);
 
-  const onChange = (e) => {
-    const searchTerm = e.target.value;
+    const onSearch = () => fetchData();
 
-    document.getElementById("search-term").innerHTML = searchTerm;
+    const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+        setQueryParams({
+            ...queryParams,
+            searchParams: {
+                ...queryParams.searchParams,
+                key: e.target.value as keyof TAdvocate,
+            },
+        });
+    };
 
-    console.log("filtering advocates...");
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience.includes(searchTerm)
-      );
-    });
+    const onTextChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const searchTerm = e.target.value;
+        setQueryParams({
+            ...queryParams,
+            searchParams: {
+                ...queryParams.searchParams,
+                input: searchTerm,
+            },
+        });
+    };
 
-    setFilteredAdvocates(filteredAdvocates);
-  };
+    const resetSearch = (): void => {
+        setQueryParams({
+            tableSort: {
+                sort: 'ASC',
+                key: COLUMN_HEADERS[0].key,
+            },
+            searchParams: {
+                key: '',
+                input: '',
+            },
+        });
+    };
 
-  const onClick = () => {
-    console.log(advocates);
-    setFilteredAdvocates(advocates);
-  };
+    return (
+        <main className={styles.pageContainer}>
+            <div className={styles.title} data-testid={'homeTitle'}>
+                <h1>Solace</h1>
+                <div className={styles.header}>Advocates</div>
+                <p>Find an advocate who will help untangle your healthcare by phone or video—no matter what you need—covered by Medicare.</p>
+            </div>
+            <ResultsTable<TAdvocate>
+                id="advocateResultsTable"
+                colDefs={COLUMN_HEADERS}
+                sortDefault={{
+                    sort: queryParams.tableSort.sort,
+                    key: queryParams.tableSort.key,
+                }}
+                results={data}
+                updateSearch={({ key, sort }: TTableSort<TAdvocate>) =>
+                    setQueryParams({
+                        ...queryParams,
+                        tableSort: {
+                            key,
+                            sort,
+                        },
+                    })
+                }>
+                <PhraseSearch<TAdvocate>
+                    count={data.length}
+                    colDefs={COLUMN_HEADERS}
+                    searchSelect={queryParams.searchParams.key}
+                    searchTerm={queryParams.searchParams.input}
+                    onTextChange={onTextChange}
+                    onSelectChange={onSelectChange}
+                    onSearch={onSearch}
+                    onClick={resetSearch}
+                />
+            </ResultsTable>
+            <ErrorDisplay error={error} onClick={() => setError('')} />
+        </main>
+    );
+};
 
-  return (
-    <main style={{ margin: "24px" }}>
-      <h1>Solace Advocates</h1>
-      <br />
-      <br />
-      <div>
-        <p>Search</p>
-        <p>
-          Searching for: <span id="search-term"></span>
-        </p>
-        <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <button onClick={onClick}>Reset Search</button>
-      </div>
-      <br />
-      <br />
-      <table>
-        <thead>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>City</th>
-          <th>Degree</th>
-          <th>Specialties</th>
-          <th>Years of Experience</th>
-          <th>Phone Number</th>
-        </thead>
-        <tbody>
-          {filteredAdvocates.map((advocate) => {
-            return (
-              <tr>
-                <td>{advocate.firstName}</td>
-                <td>{advocate.lastName}</td>
-                <td>{advocate.city}</td>
-                <td>{advocate.degree}</td>
-                <td>
-                  {advocate.specialties.map((s) => (
-                    <div>{s}</div>
-                  ))}
-                </td>
-                <td>{advocate.yearsOfExperience}</td>
-                <td>{advocate.phoneNumber}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </main>
-  );
-}
+export default Home;

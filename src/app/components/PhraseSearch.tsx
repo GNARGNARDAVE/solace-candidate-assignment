@@ -1,0 +1,79 @@
+import { ChangeEvent, FC, useMemo, useState } from 'react';
+import styles from './phrase-search.module.scss';
+import { TResultsHeaders } from '@/app/types/components/results-table';
+
+interface IPhraseSearch<T> {
+    colDefs: TResultsHeaders<T>[];
+    count: number;
+    searchTerm: string;
+    searchSelect: keyof T;
+    onClick: () => void;
+    onSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onSearch: () => void;
+}
+
+/**
+ * Phrase Search is a generic component that can complement any Results Table component.
+ *
+ * It is a generic component that can be customized by passing in the type, colDefs, and handlers to add more functionality
+ * to the results table by allowing users to filtering keys from the table.
+ *
+ */
+const PhraseSearch: FC = <T,>(props: IPhraseSearch<T>) => {
+    const { count, searchTerm, searchSelect, onSelectChange, onTextChange, onSearch, colDefs, onClick } = props;
+    const [buttonTrack, setButtonTrack] = useState<number>(0);
+
+    const updateSearch = () => {
+        setButtonTrack(buttonTrack + 1);
+        onSearch();
+    };
+
+    const resetSearch = () => {
+        setButtonTrack(0);
+        onClick();
+    };
+
+    return (
+        <div className={styles.phraseSearch}>
+            <div className={styles.displayPhrase}>
+                {searchTerm && buttonTrack > 0 &&  (
+                    <div className={styles.searchInputPhrase}>
+                        <strong>{count} results for</strong>: <span data-testid="searchTerm">"{searchTerm}"</span>
+                    </div>
+                )}
+            </div>
+            <div className={styles.searchInputContainer}>
+                <select className={styles.searchSelect} defaultValue={searchSelect} onChange={onSelectChange}>
+                    <option value="">Select:</option>
+                    {colDefs.map((item: TResultsHeaders<T>, idx: number) => (
+                        <option key={`phrase-search-item-${idx}`} value={item.key as string}>
+                            {item.label}
+                        </option>
+                    ))}
+                    <option value="someOption"> Some option</option>
+                </select>
+                <input
+                    className={styles.searchInput}
+                    onChange={onTextChange}
+                    onBlur={onTextChange}
+                    value={searchTerm}
+                    placeholder={'Search'}
+                    data-testid="searchInput"
+                />
+                <button
+                    data-testid="searchReset"
+                    className={`${styles.searchBtn} ${!searchTerm.length || !searchSelect ? styles.searchBtnDisabled : ''}`}
+                    disabled={!searchTerm.length || !searchSelect}
+                    onClick={updateSearch}>
+                    Search
+                </button>
+                <button onClick={resetSearch} className={styles.resetBtn} data-testid="searchReset">
+                    Reset
+                </button>
+            </div>
+        </div>
+    );
+};
+
+export default PhraseSearch;

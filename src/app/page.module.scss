@@ -1,0 +1,20 @@
+.pageContainer {
+  width: 90%;
+  margin:  auto;
+
+  @media(min-width:1200px) {
+    width: 1200px;
+    margin: 0 auto;
+  }
+
+  .title {
+    padding: 7px;
+
+    h1 {
+      font-size: 3em;
+    }
+    .header {
+      font-size: 1.5em;
+    }
+  }
+}

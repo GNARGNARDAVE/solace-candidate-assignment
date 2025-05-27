@@ -1,14 +1,15 @@
 services:
   db:
-    image: postgres
-    restart: always
+    image: postgres:16.4-alpine
+    container_name: pg-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
       POSTGRES_DB: solaceassignment
-    volumes:
-      - psql:/var/lib/postgresql/data
+      POSTGRES_USER: dtran
+      POSTGRES_PASSWORD: pass
     ports:
-      - 5432:5432
+      - "6432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 volumes:
-  psql:
+  postgres_data:
+    driver: local

@@ -1,0 +1,78 @@
+.phraseSearch {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+
+
+  .displayPhrase,
+  .searchInputContainer {
+    display: inline-block;
+    padding: 5px;
+    width: 100%;
+
+    @media(min-width:1200px) {
+      width: 50%
+    }
+  }
+
+  .displayPhrase {
+    @media(min-width:1200px) {
+      width: 40%
+    }
+  }
+  .searchInputContainer {
+    @media(min-width:1200px) {
+      width: 60%
+    }
+  }
+
+
+  .searchInputContainer {
+    text-align: right;
+
+    .searchInput, .searchSelect {
+      border: 1px solid #807f7f;
+      display: inline-block;;
+      border-radius: 3px;
+      margin-bottom: 5px;
+      margin-right: 5px;
+      padding: 7px;
+    }
+  }
+
+  .searchInputPhrase {
+    text-align: right;
+
+    @media(min-width:1200px) {
+      text-align: left;
+    }
+
+    strong {
+      color: #265b4e;
+    }
+  }
+
+  .resetBtn, .searchBtn {
+    border: 1px solid #807f7f;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+  }
+
+  .searchBtn {
+    padding: .4rem 4.5rem;
+  }
+
+  .resetBtn {
+    padding: .4rem 2rem;
+  }
+
+  .searchBtn {
+    background-color: rgba(40,94,80,100%);
+    color: #fff;
+  }
+
+  .searchBtnDisabled {
+    background-color: rgba(40,94,80,50%);
+  }
+}
