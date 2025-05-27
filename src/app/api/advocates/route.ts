@@ -24,7 +24,6 @@ export async function GET(request: NextRequest) {
         .from(advocates)
         .where(and(...filters))
         .orderBy(orderBy);
-
-    console.info('data', data);
+    
     return Response.json(data);
 }
