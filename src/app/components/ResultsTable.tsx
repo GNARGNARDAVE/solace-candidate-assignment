@@ -5,8 +5,8 @@ import styles from './results-tables.module.scss';
 import { useSort } from '@/app/hooks/use-sort';
 
 export const ResultsTable: FC = <T,>(props: IResultsTable<T>) => {
-    const { results, colDefs, id, updateSearch} = props;
-    const {  sort, orderBy } = useSort<T>();
+    const { results, colDefs, id, updateSearch } = props;
+    const { key, sort, orderBy } = useSort<T>();
 
     const onHeaderClick = (key: keyof T, sort) => {
         orderBy({ key, sort });
@@ -25,6 +25,11 @@ export const ResultsTable: FC = <T,>(props: IResultsTable<T>) => {
                                     data-testid={`column-header-${String(menu.key)}`}
                                     onClick={() => onHeaderClick(menu.key, sort)}>
                                     {menu.label}
+                                    {key === menu.key && (
+                                        <span
+                                            className={`${sort === 'DESC' ? styles.chevronDesc : styles.chevronAsc}`}
+                                            data-testid={`${menu.key}-sort`}/>
+                                    )}
                                 </th>
                             );
                         })}

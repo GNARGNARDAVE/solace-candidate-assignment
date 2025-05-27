@@ -4,6 +4,9 @@ import {TSpecialty} from "@/app/types/specialty";
 const lowerCaseSearch = (key: string, searchPhrase: string):boolean => key.toLowerCase().includes(searchPhrase.toLowerCase());
 const numericSearch = (key: number, searchPhrase: string):boolean => key.toString().toLowerCase().includes(searchPhrase.toLowerCase());
 
+/**
+ * Filters existing arrays from the current results
+ *e**/
 const applySearchLogic = (currVal: string | number | TSpecialty[], searchTerm: string): boolean | undefined => {
     let match: boolean;
     switch (typeof currVal) {

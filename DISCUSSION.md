@@ -18,10 +18,6 @@ sacrifice the other features, and present this existing MVP.
   - Add the proper logic to query the database (insert/ select)
 - Did not apply the dependabot template
   - I did not pin versions of the dependencies, dependabot can now handle this
-- Add specific filtering functionality by column, or ordering ASC/DESC
-  - This would have required an extra query for sorting
-  - Add pagination or infinite scroll on the table, but most likely pagination.
-- Add an advanced filter on the search
-  - Search specifically by column
+- Add pagination or infinite scroll on the table, but most likely pagination.
 - Styled a proper template
 - Setup sass variables and a base for the customized styles for Solace

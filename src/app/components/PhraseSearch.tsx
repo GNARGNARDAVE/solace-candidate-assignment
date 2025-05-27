@@ -1,14 +1,20 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 import styles from './phrase-search.module.scss';
+import { TResultsHeaders } from '@/app/types/components/results-table';
 
-interface IPhraseSearch {
+interface IPhraseSearch<T> {
+    colDefs: TResultsHeaders<T>[];
     searchTerm: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    searchSelect: keyof T;
     onClick: () => void;
+    onSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onSearch: () => void;
+
 }
 
-const PhraseSearch: FC = (props: IPhraseSearch) => {
-    const { searchTerm, onChange, onClick } = props;
+const PhraseSearch: FC = <T,>(props: IPhraseSearch<T>) => {
+    const { searchTerm, searchSelect, onSelectChange, onTextChange, onSearch, colDefs, onClick } = props;
 
     return (
         <div className={styles.phraseSearch}>
@@ -20,14 +26,30 @@ const PhraseSearch: FC = (props: IPhraseSearch) => {
                 )}
             </div>
             <div className={styles.searchInputContainer}>
+                <select
+                    className={styles.searchSelect}
+                    onChange={onSelectChange}>
+                    defaultValue={searchSelect}
+                    {colDefs.map((item:TResultsHeaders<T>, idx: number) => (
+                        <option
+                            key={`phrase-search-item-${idx}`}
+                            value={item.key as string}>
+                            {item.label}
+                        </option>
+                    ))}
+                    <option value="someOption"> Some option</option>
+                </select>
                 <input
                     className={styles.searchInput}
-                    onChange={onChange}
-                    onBlur={onChange}
+                    onChange={onTextChange}
+                    onBlur={onTextChange}
                     value={searchTerm}
                     placeholder={'Search'}
                     data-testid="searchInput"
                 />
+                <button onClick={onSearch} className={styles.searchBtn} data-testid="searchReset">
+                    Search
+                </button>
                 <button onClick={onClick} className={styles.resetBtn} data-testid="searchReset">
                     Reset
                 </button>

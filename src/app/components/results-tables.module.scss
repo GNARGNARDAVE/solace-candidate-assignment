@@ -9,8 +9,34 @@
     }
 
     th {
+      font-size: .8em;
       border-bottom: 1px solid #ededed;
-      text-align: center;
+      text-align: left;
+      min-width: 125px;
+      cursor: pointer;
+      position: relative;
+
+      .chevronAsc {
+        position: absolute;
+        display: block;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 13.1l-8-8 2.1-2.2 5.9 5.9 5.9-5.9 2.1 2.2z'/%3E%3C/svg%3E");
+        height: 10px;
+        width: 10px;
+        right: 2px;
+        top: 50%;
+        transform: rotate(0deg);
+      }
+
+      .chevronDesc {
+        position: absolute;
+        display: block;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 13.1l-8-8 2.1-2.2 5.9 5.9 5.9-5.9 2.1 2.2z'/%3E%3C/svg%3E");
+        height: 10px;
+        width: 10px;
+        right: 2px;
+        top: 50%;
+        transform: rotate(180deg);
+      }
     }
   }
 
