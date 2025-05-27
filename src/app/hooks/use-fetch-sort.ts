@@ -34,7 +34,7 @@ export const useFetchSort = <T>({ defaultSortKey, url }: IFetchSort<T>) => {
         const sortingParams = tableSort?.key && tableSort?.sort ? `&key=${tableSort.key}&sort=${tableSort.sort}` : '';
         const searchingParams = searchParams.input && searchParams.key ? `&searchKey=${searchParams.key}&searchInput=${searchParams.input}` : '';
         const combinedQueryParams = sortingParams.concat(searchingParams).slice(1);
-        modifiedUrl = combinedQueryParams.length ? `${url}?${queryParams}` : url;
+        modifiedUrl = combinedQueryParams.length ? `${url}?${combinedQueryParams}` : url;
 
         const data = await fetch(modifiedUrl)
             .then(response => response.json())
