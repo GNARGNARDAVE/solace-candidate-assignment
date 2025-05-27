@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { TSearchParams, TTableSort } from '@/app/types/components/results-table';
+import {TSearchParams, TSort, TTableSort} from '@/app/types/components/results-table';
 
 interface IFetchSort<T> {
     defaultSortKey: keyof T;
+    sort: TSort;
     url: string;
 }
 
@@ -11,13 +12,13 @@ type TQueryParams<T> = {
     tableSort: TTableSort<T>;
 };
 
-export const useFetchSort = <T>({ defaultSortKey, url }: IFetchSort<T>) => {
+export const useFetchSort = <T>({ defaultSortKey, sort, url }: IFetchSort<T>) => {
     const [data, setData] = useState<T[]>([]);
     const [error, setError] = useState<string>('');
 
     const [queryParams, setQueryParams] = useState<TQueryParams<T>>({
         searchParams: { key: null, input: '' },
-        tableSort: { sort: 'ASC', key: defaultSortKey },
+        tableSort: { sort: sort, key: defaultSortKey },
     });
 
     // Sorting will trigger a new fetch

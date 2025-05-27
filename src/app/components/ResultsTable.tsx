@@ -8,8 +8,8 @@ import { useSort } from '@/app/hooks/use-sort';
  *  Results Table is a generic table, which driven by the colDefs and reinforced by the generic type passed in.
  */
 export const ResultsTable: FC = <T,>(props: IResultsTable<T>) => {
-    const { results, colDefs, id, updateSearch, children } = props;
-    const { key, sort, orderBy } = useSort<T>();
+    const { results, colDefs, id, updateSearch, children, sortDefault } = props;
+    const { key, sort, orderBy } = useSort<T>(sortDefault);
 
     const onHeaderClick = (key: keyof T, sort) => {
         orderBy({ key, sort });

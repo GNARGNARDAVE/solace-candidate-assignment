@@ -22,4 +22,5 @@ export interface IResultsTable<T> {
     updateSearch: (params: TTableSort<T>) => void;
     colDefs: TResultsHeaders<T>[];
     results: T[];
+    sortDefault: TTableSort<T>;
 }

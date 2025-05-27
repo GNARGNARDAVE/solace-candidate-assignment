@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { TTableSort, TSort } from '@/app/types/components/results-table';
 
-export const useSort = <T>() => {
-    const [sorting, setSorting] = useState<TTableSort<T>>(null);
+export const useSort = <T>(params: TTableSort<T>) => {
+    const [sorting, setSorting] = useState<TTableSort<T>>(params);
 
     const orderBy = (params: TTableSort<T>) => {
         const { key, sort } = params;

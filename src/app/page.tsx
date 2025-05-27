@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 
 import ErrorDisplay from '@/app/components/ErrorDisplay';
 import PhraseSearch from '@/app/components/PhraseSearch';
@@ -52,6 +52,7 @@ const COLUMN_HEADERS: TResultsHeaders<TAdvocate>[] = [
 const Home: FC = () => {
     const { data, error, fetchData, queryParams, setError, setQueryParams } = useFetchSort<TAdvocate>({
         url: '/api/advocates',
+        sort: 'ASC',
         defaultSortKey: COLUMN_HEADERS[0].key,
     });
 
@@ -101,6 +102,10 @@ const Home: FC = () => {
             <ResultsTable<TAdvocate>
                 id="advocateResultsTable"
                 colDefs={COLUMN_HEADERS}
+                sortDefault={{
+                    sort: queryParams.tableSort.sort,
+                    key: queryParams.tableSort.key,
+                }}
                 results={data}
                 updateSearch={({ key, sort }: TTableSort<TAdvocate>) =>
                     setQueryParams({
