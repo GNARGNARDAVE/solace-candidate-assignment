@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 export type TSort = 'ASC' | 'DESC';
 
 export type TSearchParams<T> = {
-    key: keyof T | null;
+    key: keyof T | string;
     input: string | null;
 };
 

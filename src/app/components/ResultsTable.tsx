@@ -50,7 +50,8 @@ export const ResultsTable: FC = <T,>(props: IResultsTable<T>) => {
                                         <td
                                             key={`results-table-key-${String(cell.key)}`}
                                             className={cellStyle}
-                                            data-testid={`searchResultsRow${index}Key${String(cell.key)}`}>
+                                            data-testid={`searchResultsRow${index}Key${String(cell.key)}`}
+                                            title={`${cell.label}: ${display}`}>
                                             {display}
                                         </td>
                                     );

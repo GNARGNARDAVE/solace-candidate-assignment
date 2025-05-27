@@ -1,16 +1,16 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, useMemo, useState } from 'react';
 import styles from './phrase-search.module.scss';
 import { TResultsHeaders } from '@/app/types/components/results-table';
 
 interface IPhraseSearch<T> {
     colDefs: TResultsHeaders<T>[];
+    count: number;
     searchTerm: string;
     searchSelect: keyof T;
     onClick: () => void;
     onSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     onTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onSearch: () => void;
-
 }
 
 /**
@@ -21,26 +21,33 @@ interface IPhraseSearch<T> {
  *
  */
 const PhraseSearch: FC = <T,>(props: IPhraseSearch<T>) => {
-    const { searchTerm, searchSelect, onSelectChange, onTextChange, onSearch, colDefs, onClick } = props;
+    const { count, searchTerm, searchSelect, onSelectChange, onTextChange, onSearch, colDefs, onClick } = props;
+    const [buttonTrack, setButtonTrack] = useState<number>(0);
+
+    const updateSearch = () => {
+        setButtonTrack(buttonTrack + 1);
+        onSearch();
+    };
+
+    const resetSearch = () => {
+        setButtonTrack(0);
+        onClick();
+    };
 
     return (
         <div className={styles.phraseSearch}>
             <div className={styles.displayPhrase}>
-                {searchTerm && (
+                {searchTerm && buttonTrack > 0 &&  (
                     <div className={styles.searchInputPhrase}>
-                        <strong>Searching for</strong>: <span data-testid="searchTerm">"{searchTerm}"</span>
+                        <strong>{count} results for</strong>: <span data-testid="searchTerm">"{searchTerm}"</span>
                     </div>
                 )}
             </div>
             <div className={styles.searchInputContainer}>
-                <select
-                    className={styles.searchSelect}
-                    onChange={onSelectChange}>
-                    defaultValue={searchSelect}
-                    {colDefs.map((item:TResultsHeaders<T>, idx: number) => (
-                        <option
-                            key={`phrase-search-item-${idx}`}
-                            value={item.key as string}>
+                <select className={styles.searchSelect} defaultValue={searchSelect} onChange={onSelectChange}>
+                    <option value="">Select:</option>
+                    {colDefs.map((item: TResultsHeaders<T>, idx: number) => (
+                        <option key={`phrase-search-item-${idx}`} value={item.key as string}>
                             {item.label}
                         </option>
                     ))}
@@ -54,10 +61,14 @@ const PhraseSearch: FC = <T,>(props: IPhraseSearch<T>) => {
                     placeholder={'Search'}
                     data-testid="searchInput"
                 />
-                <button onClick={onSearch} className={styles.searchBtn} data-testid="searchReset">
+                <button
+                    data-testid="searchReset"
+                    className={`${styles.searchBtn} ${!searchTerm.length || !searchSelect ? styles.searchBtnDisabled : ''}`}
+                    disabled={!searchTerm.length || !searchSelect}
+                    onClick={updateSearch}>
                     Search
                 </button>
-                <button onClick={onClick} className={styles.resetBtn} data-testid="searchReset">
+                <button onClick={resetSearch} className={styles.resetBtn} data-testid="searchReset">
                     Reset
                 </button>
             </div>

@@ -86,7 +86,7 @@ const Home: FC = () => {
                 key: COLUMN_HEADERS[0].key,
             },
             searchParams: {
-                ...queryParams.searchParams,
+                key: '',
                 input: '',
             },
         });
@@ -96,8 +96,8 @@ const Home: FC = () => {
         <main className={styles.pageContainer}>
             <div className={styles.title} data-testid={'homeTitle'}>
                 <h1>Solace</h1>
-                <h2>Advocates</h2>
-                <p>Search</p>
+                <div className={styles.header}>Advocates</div>
+                <p>Find an advocate who will help untangle your healthcare by phone or video—no matter what you need—covered by Medicare.</p>
             </div>
             <ResultsTable<TAdvocate>
                 id="advocateResultsTable"
@@ -117,6 +117,7 @@ const Home: FC = () => {
                     })
                 }>
                 <PhraseSearch<TAdvocate>
+                    count={data.length}
                     colDefs={COLUMN_HEADERS}
                     searchSelect={queryParams.searchParams.key}
                     searchTerm={queryParams.searchParams.input}

@@ -3,18 +3,42 @@
   margin: 20px 0;
 
   tr {
+    border-bottom: 2px solid #000;
+    display: inline-block;
+    width: 100%;
+    @media(min-width: 992px) {
+      border-bottom: none;
+      display: table-row;
+      width: fit-content;
+    }
+
     th,
     td {
-      padding: 10px;
+      padding: 3px;
+      @media(min-width: 992px) {
+        display: table-cell;
+        padding: 10px;
+      }
+    }
+
+    td {
+      display: inline-block;
+      @media(min-width: 992px) {
+        display: table-cell;
+      }
     }
 
     th {
       font-size: .8em;
-      border-bottom: 1px solid #ededed;
       text-align: left;
-      min-width: 125px;
       cursor: pointer;
       position: relative;
+      width: 1%;
+
+      @media(min-width: 992px) {
+        min-width: 125px;
+        width: initial;
+      }
 
       .chevronAsc {
         position: absolute;

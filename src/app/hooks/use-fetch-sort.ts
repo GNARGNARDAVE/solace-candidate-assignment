@@ -17,7 +17,7 @@ export const useFetchSort = <T>({ defaultSortKey, sort, url }: IFetchSort<T>) =>
     const [error, setError] = useState<string>('');
 
     const [queryParams, setQueryParams] = useState<TQueryParams<T>>({
-        searchParams: { key: null, input: '' },
+        searchParams: { key: '', input: '' },
         tableSort: { sort: sort, key: defaultSortKey },
     });
 
